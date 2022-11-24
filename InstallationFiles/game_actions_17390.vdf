@@ -1,0 +1,106 @@
+"In Game Actions"
+{
+	"actions"
+	{
+		"UI"
+		{
+			"title"			"#UI"
+		}
+		"Editor"
+		{
+			"title"			"#Editor"
+		}
+		"Cell"
+		{
+			"title"			"#Cell"
+		}
+		"Creature"
+		{
+			"title"			"#Creature"
+		}
+		"Tribal"
+		{
+			"title"			"#Tribal"
+		}
+		"Civilization"
+		{
+			"title"			"#Civilization"
+		}
+		"Space"
+		{
+			"title"			"#Space"
+		}
+	}
+	"action_layers"
+	{
+		"CreatureCreature"
+		{
+			"title"		"#Layer_CreatureCreature"
+			"legacy_set"		"0"
+			"set_layer"		"1"
+			"parent_set_name"		"Creature"
+		}
+		"CreatureAdventure"
+		{
+			"title"		"#Layer_CreatureAdventure"
+			"legacy_set"		"0"
+			"set_layer"		"1"
+			"parent_set_name"		"Creature"
+		}
+		"CreatureEditor"
+		{
+			"title"		"#Layer_CreatureEditor"
+			"legacy_set"		"0"
+			"set_layer"		"1"
+			"parent_set_name"		"Editor"
+		}
+		"BuildingEditor"
+		{
+			"title"		"#Layer_BuildingEditor"
+			"legacy_set"		"0"
+			"set_layer"		"1"
+			"parent_set_name"		"Editor"
+		}
+		"VehicleEditor"
+		{
+			"title"		"#Layer_VehicleEditor"
+			"legacy_set"		"0"
+			"set_layer"		"1"
+			"parent_set_name"		"Editor"
+		}
+		"SpaceshipEditor"
+		{
+			"title"		"#Layer_SpaceshipEditor"
+			"legacy_set"		"0"
+			"set_layer"		"1"
+			"parent_set_name"		"Editor"
+		}
+		"AdventureEditor"
+		{
+			"title"		"#Layer_AdventureEditor"
+			"legacy_set"		"0"
+			"set_layer"		"1"
+			"parent_set_name"		"Editor"
+		}
+	}
+	"localization"
+	{
+		"english"
+		{
+			"UI"						"Main Menu"
+			"Editor"					"Editor"
+			"Cell"						"Cell Stage"
+			"Creature"					"Creature Stage"
+			"Tribal"					"Tribal Stage"
+			"Civilization"				"Civilization Stage"
+			"Space"						"Space Stage"
+			"Layer_CreatureCreature"	"Creature Stage"
+			"Layer_CreatureAdventure"	"Adventure Mode"
+			"Layer_CreatureEditor"		"Creature Creator"
+			"Layer_BuildingEditor"		"Building Creator"
+			"Layer_VehicleEditor"		"Vehicle Creator"
+			"Layer_SpaceshipEditor"		"Spaceship Creator"
+			"Layer_AdventureEditor"		"Adventure Creator"
+		}
+	}
+}
