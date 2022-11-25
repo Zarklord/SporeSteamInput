@@ -8,6 +8,7 @@ namespace InputSetNames
 {
 	constexpr const char * UI = "UI";
 	constexpr const char * EDITOR = "Editor";
+	constexpr const char * ADVENTURE_EDITOR = "Adventure_Editor";
 	constexpr const char * CELL = "Cell";
 	constexpr const char * CREATURE = "Creature";
 	constexpr const char * TRIBAL = "Tribal";
@@ -15,6 +16,21 @@ namespace InputSetNames
 	constexpr const char * SPACE = "Space";
 }
 
+namespace InputSet
+{
+	enum InputSet
+	{
+		UI,
+		EDITOR,
+		ADVENTURE_EDITOR,
+		CELL,
+		CREATURE,
+		TRIBAL,
+		CIVILIZATION,
+		SPACE,
+		COUNT,
+	};
+}
 
 namespace InputLayerNames
 {
@@ -24,28 +40,6 @@ namespace InputLayerNames
 	constexpr const char * EDITOR_BUILDING = "Editor_Building";
 	constexpr const char * EDITOR_VEHICLE = "Editor_Vehicle";
 	constexpr const char * EDITOR_SPACESHIP = "Editor_Spaceship";
-	constexpr const char * EDITOR_ADVENTURE = "Editor_Adventure";
-}
-
-namespace InputDigitalActionNames
-{
-	constexpr const char * EDITOR_UNDO = "editor_undo";
-	constexpr const char * EDITOR_REDO = "editor_redo";
-}
-
-namespace InputSet
-{
-	enum InputSet
-	{
-		UI,
-		EDITOR,
-		CELL,
-		CREATURE,
-		TRIBAL,
-		CIVILIZATION,
-		SPACE,
-		SIZE,
-	};
 }
 
 namespace InputCreatureLayer
@@ -54,7 +48,7 @@ namespace InputCreatureLayer
 	{
 		CREATURE_CREATURE,
 		CREATURE_ADVENTURE,
-		SIZE,
+		COUNT,
 		NONE,
 	};
 }
@@ -67,10 +61,15 @@ namespace InputEditorLayer
 		EDITOR_BUILDING,
 		EDITOR_VEHICLE,
 		EDITOR_SPACESHIP,
-		EDITOR_ADVENTURE,
-		SIZE,
+		COUNT,
 		NONE,
 	};
+}
+
+namespace InputDigitalActionNames
+{
+	constexpr const char * EDITOR_UNDO = "editor_undo";
+	constexpr const char * EDITOR_REDO = "editor_redo";
 }
 
 namespace InputDigitalAction
@@ -79,13 +78,26 @@ namespace InputDigitalAction
 	{
 		EDITOR_UNDO,
 		EDITOR_REDO,
-		SIZE,
+		COUNT,
 	};
 }
 
-typedef void (*SteamInputActionCallback)();
+namespace InputAnalogActionNames
+{
+}
 
-class SteamInputManager
+namespace InputAnalogAction
+{
+	enum InputAnalogAction
+	{
+		COUNT,
+	};
+}
+
+typedef void (*SteamInputDigitalActionCallback)();
+typedef void (*SteamInputAnalogActionCallback)(EInputSourceMode mode, float x, float y);
+
+class SteamInputManager : public DefaultRefCounted, public App::IUpdatable
 {
 public:
 	static void Initialize();
@@ -95,9 +107,11 @@ public:
 private:
 	SteamInputManager();
 public:
-	~SteamInputManager();
+	virtual ~SteamInputManager();
 
-	void Update() const;
+	void OnPostInit();
+
+	void Update();
 
 	void SetActionSet(InputSet::InputSet set);
 	InputSet::InputSet GetActionSet() const;
@@ -110,8 +124,9 @@ public:
 
 	bool IsActionHeld(InputDigitalAction::InputDigitalAction action) const;
 
-	void OnPressedInputAction(InputDigitalAction::InputDigitalAction action, SteamInputActionCallback callback);
-	void OnReleasedInputAction(InputDigitalAction::InputDigitalAction action, SteamInputActionCallback callback);
+	void OnPressedInputAction(InputDigitalAction::InputDigitalAction action, SteamInputDigitalActionCallback callback);
+	void OnReleasedInputAction(InputDigitalAction::InputDigitalAction action, SteamInputDigitalActionCallback callback);
+	void OnAnalogInputAction(InputAnalogAction::InputAnalogAction action, SteamInputAnalogActionCallback callback);
 
 private:
 	static SteamInputManager* mInstance;
@@ -122,15 +137,21 @@ private:
 	void OnDigitalAction(SteamInputActionEvent_t::DigitalAction_t & action);
 	void OnAnalogAction(SteamInputActionEvent_t::AnalogAction_t & action);
 
-	std::array<InputActionSetHandle_t, InputSet::SIZE> mActionSets;
-	std::array<InputActionSetHandle_t, InputCreatureLayer::SIZE> mCreatureActionLayers;
-	std::array<InputActionSetHandle_t, InputEditorLayer::SIZE> mEditorActionLayers;
+	virtual int AddRef() override;
+	virtual int Release() override;
 
-	std::array<InputDigitalActionHandle_t, InputDigitalAction::SIZE> mDigitalActions;
+	std::array<InputActionSetHandle_t, InputSet::COUNT> mActionSets;
+	std::array<InputActionSetHandle_t, InputCreatureLayer::COUNT> mCreatureActionLayers;
+	std::array<InputActionSetHandle_t, InputEditorLayer::COUNT> mEditorActionLayers;
+
+	std::array<InputDigitalActionHandle_t, InputDigitalAction::COUNT> mDigitalActions;
 	std::unordered_map<InputDigitalActionHandle_t, InputDigitalAction::InputDigitalAction> mDigitalActionLookup;
-	
-	std::unordered_map<InputHandle_t, SteamInputActionCallback> mOnPressedInputActionCallbacks;
-	std::unordered_map<InputHandle_t, SteamInputActionCallback> mOnReleasedInputActionCallbacks;
+	std::unordered_map<InputDigitalAction::InputDigitalAction, SteamInputDigitalActionCallback> mOnPressedInputActionCallbacks;
+	std::unordered_map<InputDigitalAction::InputDigitalAction, SteamInputDigitalActionCallback> mOnReleasedInputActionCallbacks;
+
+	std::array<InputAnalogActionHandle_t, InputAnalogAction::COUNT> mAnalogActions;
+	std::unordered_map<InputAnalogActionHandle_t, InputAnalogAction::InputAnalogAction> mAnalogActionsLookup;
+	std::unordered_map<InputAnalogAction::InputAnalogAction, SteamInputAnalogActionCallback> mOnAnalogActionCallbacks;
 
 	std::unordered_set<InputHandle_t> mConnectedControllers;
 
@@ -138,6 +159,7 @@ private:
 	InputCreatureLayer::InputCreatureLayer mCurrentCreatureActionLayer;
 	InputEditorLayer::InputEditorLayer mCurrentEditorActionLayer;
 
+	intrusive_ptr<App::UpdateMessageListener> mUpdateMessageListener;
 	ISteamInput * mSteamInput;
 };
 

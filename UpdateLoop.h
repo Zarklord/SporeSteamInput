@@ -14,7 +14,6 @@ namespace UpdateLoop
 		void detoured(int deltaTime)
 		{
 			original_function(this, deltaTime);
-			SteamAPI_RunCallbacks();
 			GetSteamInputManager().Update();
 		}
 	};

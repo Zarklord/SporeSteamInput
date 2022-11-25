@@ -9,6 +9,31 @@
 		"Editor"
 		{
 			"title"			"#Editor"
+			"Button"
+			{
+				"start_new"			"#start_new"
+				"editor_redo"		"#redo"
+				"editor_undo"		"#undo"
+				"advanced_handles"	"#advanced_handles, key_press TAB"
+				"scale_up"			"#scale_up, key_press UP_ARROW"
+				"scale_down"		"#scale_down, key_press DOWN_ARROW"
+				"delete_part"		"#delete_part, key_press DELETE"
+				"break_apart_mod"	"#break_apart_mod, key_press LEFT_CONTROL"
+				"clone_mod"			"#clone_mod, key_press LEFT_ALT"
+				"asymetry_mod"		"#asymetry_mod, key_press A"
+				"select"			"#select, mouse_button LEFT"
+			}
+			"Layers"
+			{
+				"CreatureEditor"		"#Layer_CreatureEditor"
+				"BuildingEditor"		"#Layer_BuildingEditor"
+				"VehicleEditor"			"#Layer_VehicleEditor"
+				"SpaceshipEditor"		"#Layer_SpaceshipEditor"
+			}
+		}
+		"Adventure_Editor"
+		{
+			"title"			"#Adventure_Editor"
 		}
 		"Cell"
 		{
@@ -17,6 +42,11 @@
 		"Creature"
 		{
 			"title"			"#Creature"
+			"Layers"
+			{
+				"CreatureCreature"		"#Layer_CreatureCreature"
+				"CreatureAdventure"		"#Layer_CreatureAdventure"
+			}
 		}
 		"Tribal"
 		{
@@ -33,51 +63,44 @@
 	}
 	"action_layers"
 	{
-		"CreatureCreature"
+		"Creature_Creature"
 		{
-			"title"		"#Layer_CreatureCreature"
+			"title"		"#Layer_Creature_Creature"
 			"legacy_set"		"0"
 			"set_layer"		"1"
 			"parent_set_name"		"Creature"
 		}
-		"CreatureAdventure"
+		"Creature_Adventure"
 		{
-			"title"		"#Layer_CreatureAdventure"
+			"title"		"#Layer_Creature_Adventure"
 			"legacy_set"		"0"
 			"set_layer"		"1"
 			"parent_set_name"		"Creature"
 		}
-		"CreatureEditor"
+		"Editor_Creature"
 		{
-			"title"		"#Layer_CreatureEditor"
+			"title"		"#Layer_Editor_Creature"
 			"legacy_set"		"0"
 			"set_layer"		"1"
 			"parent_set_name"		"Editor"
 		}
-		"BuildingEditor"
+		"Editor_Building"
 		{
-			"title"		"#Layer_BuildingEditor"
+			"title"		"#Layer_Editor_Building"
 			"legacy_set"		"0"
 			"set_layer"		"1"
 			"parent_set_name"		"Editor"
 		}
-		"VehicleEditor"
+		"Editor_Vehicle"
 		{
-			"title"		"#Layer_VehicleEditor"
+			"title"		"#Layer_Editor_Vehicle"
 			"legacy_set"		"0"
 			"set_layer"		"1"
 			"parent_set_name"		"Editor"
 		}
-		"SpaceshipEditor"
+		"Editor_Spaceship"
 		{
-			"title"		"#Layer_SpaceshipEditor"
-			"legacy_set"		"0"
-			"set_layer"		"1"
-			"parent_set_name"		"Editor"
-		}
-		"AdventureEditor"
-		{
-			"title"		"#Layer_AdventureEditor"
+			"title"		"#Layer_Editor_Spaceship"
 			"legacy_set"		"0"
 			"set_layer"		"1"
 			"parent_set_name"		"Editor"
@@ -89,18 +112,31 @@
 		{
 			"UI"						"Main Menu"
 			"Editor"					"Editor"
+			"Adventure_Editor"			"Adventure Editor"
 			"Cell"						"Cell Stage"
 			"Creature"					"Creature Stage"
 			"Tribal"					"Tribal Stage"
 			"Civilization"				"Civilization Stage"
 			"Space"						"Space Stage"
-			"Layer_CreatureCreature"	"Creature Stage"
-			"Layer_CreatureAdventure"	"Adventure Mode"
-			"Layer_CreatureEditor"		"Creature Creator"
-			"Layer_BuildingEditor"		"Building Creator"
-			"Layer_VehicleEditor"		"Vehicle Creator"
-			"Layer_SpaceshipEditor"		"Spaceship Creator"
-			"Layer_AdventureEditor"		"Adventure Creator"
+			"Layer_Creature_Creature"	"Creature Stage"
+			"Layer_Creature_Adventure"	"Adventure Mode"
+			"Layer_Editor_Creature"		"Creature Creator"
+			"Layer_Editor_Building"		"Building Creator"
+			"Layer_Editor_Vehicle"		"Vehicle Creator"
+			"Layer_Editor_Spaceship"	"Spaceship Creator"
+
+
+			"start_new"					"New Creation"
+			"redo"						"Redo"
+			"undo"						"Undo"
+			"advanced_handles"			"Advanced Handles"
+			"scale_up"					"Scale Up"
+			"scale_down"				"Scale Down"
+			"delete_part"				"Delete Part"
+			"break_apart_mod"			"Break Apart Modifier"
+			"clone_mod"					"Clone Part Modifier"
+			"asymetry_mod"				"Asymetry Modifier"
+			"select"					"Select"
 		}
 	}
 }

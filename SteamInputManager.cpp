@@ -7,6 +7,9 @@
 #define InitializeDigitalAction(name) \
 	mDigitalActions[InputDigitalAction::name] = mSteamInput->GetDigitalActionHandle(InputDigitalActionNames::name); \
 	mDigitalActionLookup[mDigitalActions[InputDigitalAction::name]] = InputDigitalAction::name
+#define InitializeAnalogAction(name) \
+	mAnalogActions[InputAnalogAction::name] = mSteamInput->GetAnalogActionHandle(InputAnalogActionNames::name); \
+	mAnalogActionsLookup[mAnalogActions[InputAnalogAction::name]] = InputAnalogAction::name
 
 SteamInputManager& GetSteamInputManager()
 {
@@ -47,18 +50,19 @@ SteamInputManager::SteamInputManager()
 	, mCreatureActionLayers()
 	, mEditorActionLayers()
 	, mDigitalActions()
+	, mAnalogActions()
 	, mCurrentActionSet(InputSet::UI)
 	, mCurrentCreatureActionLayer(InputCreatureLayer::NONE)
 	, mCurrentEditorActionLayer(InputEditorLayer::NONE)
 	, mSteamInput(SteamInput())
 {
-
 	mSteamInput->Init(true);
 	mSteamInput->EnableDeviceCallbacks();
 	mSteamInput->EnableActionEventCallbacks(SteamInputActionEventCallback);
 
 	InitializeActionSet(UI);
 	InitializeActionSet(EDITOR);
+	InitializeActionSet(ADVENTURE_EDITOR);
 	InitializeActionSet(CELL);
 	InitializeActionSet(CREATURE);
 	InitializeActionSet(TRIBAL);
@@ -72,7 +76,6 @@ SteamInputManager::SteamInputManager()
 	InitializeEditorActionLayer(EDITOR_BUILDING);
 	InitializeEditorActionLayer(EDITOR_VEHICLE);
 	InitializeEditorActionLayer(EDITOR_SPACESHIP);
-	InitializeEditorActionLayer(EDITOR_ADVENTURE);
 
 	InitializeDigitalAction(EDITOR_UNDO);
 	InitializeDigitalAction(EDITOR_REDO);
@@ -82,10 +85,21 @@ SteamInputManager::SteamInputManager()
 
 SteamInputManager::~SteamInputManager()
 {
+	if (mUpdateMessageListener)
+	{
+		App::RemoveUpdateFunction(mUpdateMessageListener);
+		mUpdateMessageListener = nullptr;
+	}
+
 	mSteamInput->Shutdown();
 }
 
-void SteamInputManager::Update() const
+void SteamInputManager::OnPostInit()
+{
+	mUpdateMessageListener = App::AddUpdateFunction(this);
+}
+
+void SteamInputManager::Update()
 {
 	mSteamInput->RunFrame();
 }
@@ -161,14 +175,19 @@ bool SteamInputManager::IsActionHeld(InputDigitalAction::InputDigitalAction acti
 	return false;
 }
 
-void SteamInputManager::OnPressedInputAction(InputDigitalAction::InputDigitalAction action, SteamInputActionCallback callback)
+void SteamInputManager::OnPressedInputAction(InputDigitalAction::InputDigitalAction action, SteamInputDigitalActionCallback callback)
 {
 	mOnPressedInputActionCallbacks[action] = callback;	
 }
 
-void SteamInputManager::OnReleasedInputAction(InputDigitalAction::InputDigitalAction action, SteamInputActionCallback callback)
+void SteamInputManager::OnReleasedInputAction(InputDigitalAction::InputDigitalAction action, SteamInputDigitalActionCallback callback)
 {
 	mOnReleasedInputActionCallbacks[action] = callback;	
+}
+
+void SteamInputManager::OnAnalogInputAction(InputAnalogAction::InputAnalogAction action, SteamInputAnalogActionCallback callback)
+{
+	mOnAnalogActionCallbacks[action] = callback;	
 }
 
 void SteamInputManager::OnSteamInputDeviceConnected(SteamInputDeviceConnected_t* pParam)
@@ -206,5 +225,24 @@ void SteamInputManager::OnDigitalAction(SteamInputActionEvent_t::DigitalAction_t
 
 void SteamInputManager::OnAnalogAction(SteamInputActionEvent_t::AnalogAction_t& action)
 {
-	
+	if (!action.analogActionData.bActive) return;
+
+	const auto it = mAnalogActionsLookup.find(action.actionHandle);
+	if (it != mAnalogActionsLookup.end())
+	{
+		const InputAnalogAction::InputAnalogAction input_action = it->second;
+		const auto onAnalogAction = mOnAnalogActionCallbacks.find(input_action);
+		if (onAnalogAction != mOnAnalogActionCallbacks.end())
+			onAnalogAction->second(action.analogActionData.eMode, action.analogActionData.x, action.analogActionData.y);
+	}
+}
+
+int SteamInputManager::AddRef()
+{
+	return DefaultRefCounted::AddRef();
+}
+
+int SteamInputManager::Release()
+{
+	return DefaultRefCounted::Release();
 }

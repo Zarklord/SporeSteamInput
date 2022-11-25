@@ -25,7 +25,7 @@
     <ClInclude Include="SteamInputManager.h">
       <Filter>SteamInput</Filter>
     </ClInclude>
-    <ClInclude Include="UpdateLoop.h">
+    <ClInclude Include="GameModeListener.h">
       <Filter>SteamInput</Filter>
     </ClInclude>
   </ItemGroup>
@@ -42,7 +42,7 @@
     <ClCompile Include="SteamInputManager.cpp">
       <Filter>SteamInput</Filter>
     </ClCompile>
-    <ClCompile Include="UpdateLoop.cpp">
+    <ClCompile Include="GameModeListener.cpp">
       <Filter>SteamInput</Filter>
     </ClCompile>
   </ItemGroup>

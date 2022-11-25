@@ -104,11 +104,11 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameModeListener.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="SteamInputCheat.h" />
     <ClInclude Include="SteamInputManager.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="UpdateLoop.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -119,13 +119,13 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="GameModeListener.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="SteamInputCheat.cpp" />
     <ClCompile Include="SteamInputManager.cpp" />
-    <ClCompile Include="UpdateLoop.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SdkPathConfig.props" />

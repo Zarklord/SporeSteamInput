@@ -2,9 +2,10 @@
 #include "stdafx.h"
 #include <steam/steam_api.h>
 
+#include "GameModeListener.h"
 #include "SteamInputCheat.h"
 #include "SteamInputManager.h"
-#include "UpdateLoop.h"
+#include "Spore/App/cGameModeManager.h"
 
 bool gSteamAPI_Init = false;
 
@@ -41,6 +42,8 @@ void OnEditorRedoPressed()
 	editor->Redo();
 }
 
+intrusive_ptr<App::UpdateMessageListener> sSteamAPIRunCallbacksUpdater;
+
 void PostInitialize()
 {
 	// This method is executed when the game starts, before the user interface is shown
@@ -53,51 +56,28 @@ void PostInitialize()
 	//ManualBreakpoint();
 
 	SteamInputManager& steam_input_manager = GetSteamInputManager();
+
+	steam_input_manager.OnPostInit();
+	sSteamAPIRunCallbacksUpdater = App::AddUpdateFunction(SteamAPI_RunCallbacks);
 	
 	steam_input_manager.OnPressedInputAction(InputDigitalAction::EDITOR_UNDO, OnEditorUndoPressed);
 	steam_input_manager.OnPressedInputAction(InputDigitalAction::EDITOR_REDO, OnEditorRedoPressed);
 
 	CheatManager.AddCheat("steam_input_toggle", new SteamInputCheat(steam_input_manager));
+
+	MessageManager.AddListener(new GameModeListener(steam_input_manager), App::OnModeEnterMessage::ID);
 }
 
 void Dispose()
 {
+	App::RemoveUpdateFunction(sSteamAPIRunCallbacksUpdater);
+	sSteamAPIRunCallbacksUpdater = nullptr;
 	// This method is called when the game is closing
 }
 
-void OnEnterEditor(Editors::EditorRequest* request)
-{
-	GetSteamInputManager().SetActionSet(InputSet::EDITOR);
-	//TODO determine what specific layer to apply.
-}
-
-static_detour(EditorRequestSubmit_detour, void(Editors::EditorRequest*))
-{
-	void detoured(Editors::EditorRequest* request)
-	{
-		OnEnterEditor(request);
-		return original_function(request);
-	}
-};
-
-member_detour(SubmitEditorRequest_detour, Simulator::cGameModeManager, void(Editors::EditorRequest*))
-{
-	void detoured(Editors::EditorRequest* request)
-	{
-		OnEnterEditor(request);
-		return original_function(this, request);
-	}
-};
-
 void AttachDetours()
 {
-	// Call the attach() method on any detours you want to add
-	// For example: cViewer_SetRenderType_detour::attach(GetAddress(cViewer, SetRenderType));
-	EditorRequestSubmit_detour::attach(GetAddress(Editors::EditorRequest, Submit));
-	SubmitEditorRequest_detour::attach(GetAddress(Simulator::cGameModeManager, SubmitEditorRequest));
-	UpdateLoop::AttachDetours();
 }
-
 
 // Generally, you don't need to touch any code here
 BOOL APIENTRY DllMain( HMODULE hModule,
