@@ -68,6 +68,7 @@ namespace InputEditorLayer
 
 namespace InputDigitalActionNames
 {
+	constexpr const char * EDITOR_NEW = "editor_new";
 	constexpr const char * EDITOR_UNDO = "editor_undo";
 	constexpr const char * EDITOR_REDO = "editor_redo";
 }
@@ -76,6 +77,7 @@ namespace InputDigitalAction
 {
 	enum InputDigitalAction
 	{
+		EDITOR_NEW,
 		EDITOR_UNDO,
 		EDITOR_REDO,
 		COUNT,

@@ -5,6 +5,7 @@ import shutil
 
 VS_PATH = "C:/Program Files (x86)/Microsoft Visual Studio/2019\Community/VC\Tools/MSVC/14.29.30133/bin/Hostx86/x86/"
 DLL_PATH = os.path.abspath("./steamsdk/redistributable_bin") + "/"
+print(DLL_PATH)
 
 dumpbin = VS_PATH + "dumpbin.exe"
 lib		= VS_PATH + "lib.exe"

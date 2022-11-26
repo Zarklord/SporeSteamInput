@@ -1,6 +1,4 @@
-
 steamsdk/
-
-Debug/
-
 .vs/
+source/Debug/
+source/Release/

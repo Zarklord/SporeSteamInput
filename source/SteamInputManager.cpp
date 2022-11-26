@@ -76,7 +76,8 @@ SteamInputManager::SteamInputManager()
 	InitializeEditorActionLayer(EDITOR_BUILDING);
 	InitializeEditorActionLayer(EDITOR_VEHICLE);
 	InitializeEditorActionLayer(EDITOR_SPACESHIP);
-
+	
+	InitializeDigitalAction(EDITOR_NEW);
 	InitializeDigitalAction(EDITOR_UNDO);
 	InitializeDigitalAction(EDITOR_REDO);
 

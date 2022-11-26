@@ -11,6 +11,9 @@
     <Filter Include="Internal">
       <UniqueIdentifier>{d62ad12d-69d8-4933-8342-03043c9adc22}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SteamInput\Controls">
+      <UniqueIdentifier>{ba8da55a-0b12-44a7-87d8-a50f27610529}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
@@ -19,14 +22,26 @@
     <ClInclude Include="stdafx.h">
       <Filter>Internal</Filter>
     </ClInclude>
-    <ClInclude Include="SteamInputCheat.h">
-      <Filter>SteamInput</Filter>
-    </ClInclude>
     <ClInclude Include="SteamInputManager.h">
       <Filter>SteamInput</Filter>
     </ClInclude>
     <ClInclude Include="GameModeListener.h">
       <Filter>SteamInput</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.h">
+      <Filter>SteamInput\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Creature.h">
+      <Filter>SteamInput\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Civilization.h">
+      <Filter>SteamInput\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Adventure.h">
+      <Filter>SteamInput\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenu.h">
+      <Filter>SteamInput\Controls</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -36,14 +51,23 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Internal</Filter>
     </ClCompile>
-    <ClCompile Include="SteamInputCheat.cpp">
-      <Filter>SteamInput</Filter>
-    </ClCompile>
     <ClCompile Include="SteamInputManager.cpp">
       <Filter>SteamInput</Filter>
     </ClCompile>
     <ClCompile Include="GameModeListener.cpp">
       <Filter>SteamInput</Filter>
+    </ClCompile>
+    <ClCompile Include="Cell.h">
+      <Filter>SteamInput\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Tribe.h">
+      <Filter>SteamInput\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Space.h">
+      <Filter>SteamInput\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="AdventureEditor.h">
+      <Filter>SteamInput\Controls</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
